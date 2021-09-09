@@ -70,18 +70,19 @@ public class KnapDynamic {
     }
     
     private void printItemsSelected(int m[][], int[] weights, int[] values, int capacity){
+        System.out.print("\n------------------------------------------\n");
         System.out.print("\nItems to be included in the Luggage:");
         int totalProfit = m[weights.length-1][capacity];
         for(int i = weights.length - 1; i > 0; i--) {
             if(totalProfit != m[i - 1][capacity]) {
-            System.out.print(" " + name[i]);
+            System.out.print("\n\t> " + name[i]);
             capacity -= weights[i];
             totalProfit -= values[i];
         }
     }
     
         if(totalProfit != 0)
-            System.out.print(" " + name[0]);
+            System.out.print("\n\t> " + name[0]);
         System.out.println("");
      }
     public static void main(String[] args) {
@@ -91,7 +92,8 @@ public class KnapDynamic {
         System.out.print(" ----------------------------\n\n");
         getInputs();
         int maxProfit = knapd.KnapsackLuggage(val, wt, cap);
-        System.out.println("Total Profit: " + maxProfit);
+        System.out.println("\nTotal Profit: " + maxProfit);
+        System.out.println("");
     } 
 }
 
