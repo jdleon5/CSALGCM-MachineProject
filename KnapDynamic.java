@@ -9,77 +9,71 @@ public class KnapDynamic {
     private static String[] name;
     private static String dump;
 
-    public int solveKnapsack(int[] val, int[] wt, int cap) {
-        // base checks
-        if (cap <= 0 || val.length == 0 || wt.length != val.length)
-          return 0;
-    
+    public int KnapsackLuggage(int[] val, int[] wt, int cap) {
         int n = val.length;
-        int[][] dp = new int[n][cap + 1];
+        int[][] m = new int[n][cap + 1];
     
-        // populate the capacity=0 columns, with '0' capacity we have '0' profit
-        for(int i=0; i < n; i++)
-          dp[i][0] = 0;
+        // Fill first column and row with 0 since they have no value
+        for(int i = 0; i < n; i++)
+            m[i][0] = 0;
     
-        // if we have only one weight, we will take it if it is not more than the capacity
-        for(int c=0; c <= cap; c++) {
-          if(wt[0] <= c)
-            dp[0][c] = val[0];
+        // If only 1 weight is given, it will be taken if not more than capacity.
+        for(int j = 0; j <= cap; j++) {
+            if(wt[0] <= j)
+                m[0][j] = val[0];
         }
     
         // process all sub-arrays for all the capacities
-        for(int i=1; i < n; i++) {
-          for(int c=1; c <= cap; c++) {
-            int profit1= 0, profit2 = 0;
-            // include the item, if it is not more than the capacity
-            if(wt[i] <= c)
-              profit1 = val[i] + dp[i-1][c-wt[i]];
-            // exclude the item
-            profit2 = dp[i-1][c];
-            // take maximum
-            dp[i][c] = Math.max(profit1, profit2);
-          }
+        for(int i = 1; i < n; i++) {
+            for(int k = 1; k <= cap; k++) {
+                int value1 = 0;
+                int value2 = 0;
+                
+                if(wt[i] <= k)  // if not more than the capacity, include the item.
+                    value1 = val[i] + m[i-1][k-wt[i]];
+                value2 = m[i-1][k]; // exclude item
+                m[i][k] = Math.max(value1, value2); // get the maximum profits
+            }
         }
     
-        printSelectedElements(dp, wt, val, cap);
-        return dp[n-1][cap];
+        printItemsSelected(m, wt, val, cap);
+        return m[n-1][cap];
       }
     
-     private void printSelectedElements(int dp[][], int[] weights, int[] profits, int capacity){
-       System.out.print("\nItems included in Knapsack:");
-       int totalProfit = dp[weights.length-1][capacity];
-       for(int i=weights.length-1; i > 0; i--) {
-         if(totalProfit != dp[i-1][capacity]) {
-           System.out.print(" " + name[i]);
-           capacity -= weights[i];
-           totalProfit -= profits[i];
-         }
-       }
+    private void printItemsSelected(int m[][], int[] weights, int[] values, int capacity){
+        System.out.print("\nItems to be included in the Luggage:");
+        int totalProfit = m[weights.length-1][capacity];
+        for(int i = weights.length - 1; i > 0; i--) {
+            if(totalProfit != m[i - 1][capacity]) {
+            System.out.print(" " + name[i]);
+            capacity -= weights[i];
+            totalProfit -= values[i];
+        }
+    }
     
-       if(totalProfit != 0)
-         System.out.print(" " + name[0]);
-       System.out.println("");
+        if(totalProfit != 0)
+            System.out.print(" " + name[0]);
+        System.out.println("");
      }
     public static void main(String[] args) {
         KnapDynamic knapd = new KnapDynamic();
+        System.out.print("\n---------------------------- ");
+        System.out.print("WELCOME TO AGREEGE AIRLINES!");
+        System.out.print(" ----------------------------\n\n");
         getInputs();
-        int maxProfit = knapd.solveKnapsack(val, wt, cap);
+        int maxProfit = knapd.KnapsackLuggage(val, wt, cap);
         System.out.println("Total Profit: " + maxProfit);
-        //maxProfit = ks.solveKnapsack(val, wt, w-1);
-        //System.out.println("Total knapsack profit ---> " + maxProfit);
     } 
 
     public static void getInputs() {
         Scanner sc = new Scanner(System.in);
+        cap = 30;   // Hard coded capacity by the airlines
+        System.out.print("Max Weight : " + cap);
+
         while(n <= 0) {
-            System.out.print("Number of items: ");
+            System.out.print("\nNumber of items: ");
             n = sc.nextInt();
         }
-        while(cap <= 0) {
-            System.out.print("Weight limit: ");
-            cap = sc.nextInt();
-        }
-        
 
         name = new String[20];
         wt = new int[20];
