@@ -40,31 +40,6 @@ public class KnapDynamic {
         return m[n-1][cap];
       }
     
-    private void printItemsSelected(int m[][], int[] weights, int[] values, int capacity){
-        System.out.print("\nItems to be included in the Luggage:");
-        int totalProfit = m[weights.length-1][capacity];
-        for(int i = weights.length - 1; i > 0; i--) {
-            if(totalProfit != m[i - 1][capacity]) {
-            System.out.print(" " + name[i]);
-            capacity -= weights[i];
-            totalProfit -= values[i];
-        }
-    }
-    
-        if(totalProfit != 0)
-            System.out.print(" " + name[0]);
-        System.out.println("");
-     }
-    public static void main(String[] args) {
-        KnapDynamic knapd = new KnapDynamic();
-        System.out.print("\n---------------------------- ");
-        System.out.print("WELCOME TO AGREEGE AIRLINES!");
-        System.out.print(" ----------------------------\n\n");
-        getInputs();
-        int maxProfit = knapd.KnapsackLuggage(val, wt, cap);
-        System.out.println("Total Profit: " + maxProfit);
-    } 
-
     public static void getInputs() {
         Scanner sc = new Scanner(System.in);
         cap = 30;   // Hard coded capacity by the airlines
@@ -93,5 +68,30 @@ public class KnapDynamic {
             }
         }
     }
+    
+    private void printItemsSelected(int m[][], int[] weights, int[] values, int capacity){
+        System.out.print("\nItems to be included in the Luggage:");
+        int totalProfit = m[weights.length-1][capacity];
+        for(int i = weights.length - 1; i > 0; i--) {
+            if(totalProfit != m[i - 1][capacity]) {
+            System.out.print(" " + name[i]);
+            capacity -= weights[i];
+            totalProfit -= values[i];
+        }
+    }
+    
+        if(totalProfit != 0)
+            System.out.print(" " + name[0]);
+        System.out.println("");
+     }
+    public static void main(String[] args) {
+        KnapDynamic knapd = new KnapDynamic();
+        System.out.print("\n---------------------------- ");
+        System.out.print("WELCOME TO AGREEGE AIRLINES!");
+        System.out.print(" ----------------------------\n\n");
+        getInputs();
+        int maxProfit = knapd.KnapsackLuggage(val, wt, cap);
+        System.out.println("Total Profit: " + maxProfit);
+    } 
 }
 
