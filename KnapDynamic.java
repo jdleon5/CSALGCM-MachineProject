@@ -42,7 +42,7 @@ public class KnapDynamic {
     
     public static void getInputs() {
         Scanner sc = new Scanner(System.in);
-        cap = 30;   // Hard coded capacity by the airlines
+        cap = 20;   // Hard coded capacity by the airlines
         System.out.print("Max Weight : " + cap);
 
         while(n <= 0) {

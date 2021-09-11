@@ -12,7 +12,7 @@ public class RecursionKnap
     static int n = 0;
     
     // Capacity of the knapsack
-    static int capacity = 30;
+    static int capacity = 20;
     
     // To compute the items picked. 
     // Size is capacity+1 because the index is the capacity left
