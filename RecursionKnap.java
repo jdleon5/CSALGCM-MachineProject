@@ -88,19 +88,18 @@ public class RecursionKnap
         return seen[index][capacity];
         
     }
-
-    public static void main(String args[])
-    {    
+    static void getInputs()
+    {
         Scanner sc = new Scanner(System.in);
 
-        while(n <= 0) {
-            System.out.print("\nNumber of items: ");
-            n = sc.nextInt();
-        }
+    while(n <= 0) {
+        System.out.print("\nNumber of items: ");
+        n = sc.nextInt();
+    }
 
-        name = new String[20];
-        size = new int[20];
-        value = new int[20];
+    name = new String[20];
+    size = new int[20];
+    value = new int[20];
 
         for(int i = 0; i < n; i++) {
             dump = sc.nextLine(); 
@@ -115,8 +114,11 @@ public class RecursionKnap
                 value[i] = sc.nextInt();
             }
         }
+    }
     
-        
+    public static void main(String args[])
+    {    
+        getInputs();
         System.out.println("---------------------------");
         // printing the sizes of items
         System.out.println("The size array");
