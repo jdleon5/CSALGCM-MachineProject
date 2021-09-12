@@ -1,10 +1,16 @@
 import java.util.*;
 import java.io.*;
 import java.lang.reflect.Array;
-import java.util.Random;
+import java.asize.*;
+import javax.swing.*;
+import java.awt.*;
 
 public class RecursionKnap
 {
+    private JFrame textF;
+    private JTextArea log;
+    private JScrollPane scroll;
+    private String text;
     // dump
     private static String dump;
 
@@ -16,11 +22,11 @@ public class RecursionKnap
     
     // To compute the items picked. 
     // Size is capacity+1 because the index is the capacity left
-    // has the value of the item if that item's value is computed and '0' if not computed
+    // has the val of the item if that item's val is computed and '0' if not computed
     static int seen[][]= new int[capacity+1][capacity+1];
     
-   // Stores the values of the items
-    static int[] value = new int[n];    
+   // Stores the vals of the items
+    static int[] val = new int[n];    
     
     // Stores the size/weight of the items
     static int[] size = new int[n];  
@@ -28,12 +34,97 @@ public class RecursionKnap
     // Stores the name of the items
     static String[] name = new String[n]; 
 
-    // Stores the items which is to picked for maximized value
-    // has the value '1' if that item picked and '0' if not picked
+    // Stores the items which is to picked for maximized val
+    // has the val '1' if that item picked and '0' if not picked
     static int[][] keep = new int[capacity+1][capacity+1];
     
+    //gui
+    public RecursionKnap() {
+        initGUI();
+    }
+
+    private void initGUI() {
+        //dgui = new dynamicGUI();
+        // JButton confirm = gui.getConfirm();
+        // JButton clear = gui.getClear();
+        // JTextArea log = gui.getTextArea();
+        JFrame frame = new JFrame("Agreege Airlines: Recursive Solution for Luggage");
+        JFrame mainf = new JFrame();
+        JButton nxt = new JButton("CONTINUE");
+        frame.setSize(500, 300);
+        frame.setLayout(new BorderLayout());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        
+        JLabel welcome = new JLabel("WELCOME TO AGREEGE AIRLINES!");
+        JLabel welcp = new JLabel("<html>Agreege Airlines has a 20kg weight limit for every luggage that a passenger can carry. We are very strict when it comes to luggage weight because this affects numerous ways on how the plane will perform such as taking off, landing, and fuel consumption. </html>");
+        welcome.setHorizontalAlignment(JLabel.CENTER);
+        welcome.setVerticalAlignment(JLabel.CENTER);
+        welcp.setHorizontalAlignment(JLabel.CENTER);
+        welcp.setVerticalAlignment(JLabel.CENTER);
+        frame.add(welcome, BorderLayout.NORTH);
+        frame.add(welcp, BorderLayout.CENTER);
+        frame.add(nxt, BorderLayout.SOUTH);
+        //frame.pack();
+        frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
+
+        //text = String.format("\n---------------------------- WELCOME TO AGREEGE AIRLINES! ----------------------------\n\n");
+        //JOptionPane.showMessageDialog(null, "\n---------------------------- WELCOME TO AGREEGE AIRLINES! ----------------------------\n\n");
+        
+        //log.append(text);
+        nxt.addActionListener(e -> {
+            frame.setVisible(false);
+            initTextArea();
+        getInputs();
+
+        long startTime = System.nanoTime();
+
+        text = String.format("The maximum value is " + knapsack(n-1,capacity) + "\n");
+        log.append(text);
+
+        text = String.format("Items kept are the following: \n");
+        log.append(text);
+
+        while(n >= 0)
+        {
+            if(keep[n][capacity] == 1)
+            {
+                text = String.format("\n>Item: "+name[n]);
+                log.append(text);
+                // item picked hence capacity reduced
+                capacity-=size[n];
+                // moving to next item, one row above
+                n--;                
+            }
+            else
+            {
+                n--;
+            }
+        }  
+    long endTime   = System.nanoTime();
+    long totalTime = endTime - startTime;
+    text = String.format("\n\nProgram Runtime: " + totalTime + " nanoseconds");
+    log.append(text);
+        });
+    }
+        private void initTextArea() {
+            textF = new JFrame("Agreege Airlines: Recursive Solution Result");
+            textF.setSize(370, 400);
+            log = new JTextArea(23, 41);
+            log.setBorder(BorderFactory.createLineBorder(Color.black));
+            log.setLineWrap(true);
+            log.setEditable(false);
+            log.setVisible(true);
+            scroll = new JScrollPane(log);
+            scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            textF.add(scroll, BorderLayout.CENTER);
+            textF.setVisible(true);
+            textF.setLocationRelativeTo(null);
+        }
+
 /*===========================================================================================
- Method which computes the optimal value and items to be picked 
+ Method which computes the optimal val and items to be picked 
  We start with the last element and climb up to the first item.
  ===========================================================================================*/
     static int knapsack(int index, int capacity)
@@ -47,15 +138,15 @@ public class RecursionKnap
             // capacity of the sack will not be exceeded if item0 picked
             if(size[0] <= capacity)
             {
-                // current item picked and value stored
+                // current item picked and val stored
                 keep[index][capacity] = 1;
-                seen[index][capacity] = value[0];
-                return value[0];
+                seen[index][capacity] = val[0];
+                return val[0];
             }
             else
             {
                 // current item not picked as its size exceeds the capacity of the sack
-                // hence value not stored
+                // hence val not stored
                 keep[index][capacity] = 0;
                 seen[index][capacity] = 0;
                 return 0;
@@ -64,14 +155,14 @@ public class RecursionKnap
         
         // if i pick the item the size of the item will either be equal to the capacity
         // or less than that. Hence i will pick it up
-        // picking up increases value but reduces the capacity of the sack
+        // picking up increases val but reduces the capacity of the sack
         if(size[index] <= capacity)
-            take = knapsack(index-1, capacity - size[index]) + value[index];
+            take = knapsack(index-1, capacity - size[index]) + val[index];
            
         // Choice 2 - of not picking it up.
             dontTake = knapsack(index-1 , capacity);
         
-            // optimal solution, Maximized value stored
+            // optimal solution, Maximized val stored
         seen[index][capacity] = Math.max(take, dontTake);
         
         // if the item which i am picking gives the optimal solution then
@@ -90,79 +181,39 @@ public class RecursionKnap
     }
     static void getInputs()
     {
-        Scanner sc = new Scanner(System.in);
+        JOptionPane.showMessageDialog(null, "Max Weight : " + capacity);
 
-    while(n <= 0) {
-        System.out.print("\nNumber of items: ");
-        n = sc.nextInt();
-    }
+        while(n <= 0) {
+            //System.out.print("\nNumber of items: ");
+            n = Integer.parseInt(JOptionPane.showInputDialog("Number of items: "));
+            //n = sc.nextInt();
+        }
 
     name = new String[20];
     size = new int[20];
-    value = new int[20];
+    val = new int[20];
 
-        for(int i = 0; i < n; i++) {
-            dump = sc.nextLine(); 
-            System.out.print("\nItem name: ");
-            name[i] = sc.nextLine();
+            for(int i = 0; i < n; i++) {
+            //dump = JOptionPane.showInputDialog("dump: "); 
+            //System.out.print("\nItem name: ");
+            name[i] = JOptionPane.showInputDialog("Item name: ");
+            //name[i] = sc.nextLine();
             while(size[i] <= 0){
-                System.out.print("Item weight: ");
-                size[i] = sc.nextInt();
+                // System.out.print("Item weight: ");
+                // size[i] = sc.nextInt();
+                size[i] = Integer.parseInt(JOptionPane.showInputDialog("Item weight: "));
             }
-            while(value[i] <= 0){
-                System.out.print("Item value: ");
-                value[i] = sc.nextInt();
+            while(val[i] <= 0){
+                val[i] = Integer.parseInt(JOptionPane.showInputDialog("Item value: "));
+                //System.out.print("Item val: ");
+                //val[i] = sc.nextInt();
             }
         }
     }
     
     public static void main(String args[])
     {    
-        getInputs();
-        System.out.println("---------------------------");
-        // printing the sizes of items
-        System.out.println("The size array");
-        System.out.println("---------------------------");
-        for(int i=0 ; i < n ; i++)
-            System.out.println("item" +(i+1) +" "+ size[i]); 
-        System.out.println("---------------------------");
-        System.out.println("");
-        System.out.println("---------------------------");
-        // printing the values of items
-        System.out.println("The value array");
-        System.out.println("---------------------------");
-        for(int i=0 ; i < n ; i++)
-            System.out.println("item" +(i+1) +" "+ value[i]);
-        System.out.println("---------------------------");
-        System.out.println("");
-        System.out.println("---------------------------");
-        System.out.println("the max value is");
-        System.out.println(knapsack(n-1,capacity));
-        System.out.println("---------------------------");
-        System.out.println("");
-        System.out.println("---------------------------");
-        /* we will get the items which gives the optimal solution by this block
-         * They are present at the position 
-         * [the item number picked][capacity left after picking up the previous item]
-         */
-    
-        System.out.println("items kept");
-        System.out.println("---------------------------");
-        while(n >= 0)
-        {
-            if(keep[n][capacity] == 1)
-            {
-                System.out.println("Item: "+name[n]);
-                // item picked hence capacity reduced
-                capacity-=size[n];
-                // moving to next item, one row above
-                n--;                
-            }
-            else
-            {
-                n--;
-            }
-        }  
-        System.out.println("---------------------------");
+        RecursionKnap knapr = new RecursionKnap();
+        return;
     }
 }

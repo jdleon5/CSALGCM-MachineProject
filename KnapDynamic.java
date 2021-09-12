@@ -35,7 +35,7 @@ public class KnapDynamic {
         frame.setVisible(true);
         
         JLabel welcome = new JLabel("WELCOME TO AGREEGE AIRLINES!");
-        JLabel welcp = new JLabel("<html>Agreege Airlines has a 20kg weight limit for every luggage that apassenger can carry. We are very strict when it comes to luggage weight because this affects numerous ways on how the plane will perform such as taking off, landing, and fuel consumption. </html>");
+        JLabel welcp = new JLabel("<html>Agreege Airlines has a 20kg weight limit for every luggage that a passenger can carry. We are very strict when it comes to luggage weight because this affects numerous ways on how the plane will perform such as taking off, landing, and fuel consumption. </html>");
         welcome.setHorizontalAlignment(JLabel.CENTER);
         welcome.setVerticalAlignment(JLabel.CENTER);
         welcp.setHorizontalAlignment(JLabel.CENTER);
@@ -55,10 +55,19 @@ public class KnapDynamic {
             frame.setVisible(false);
             initTextArea();
             getInputs();
+            //start of algorithm
+            long startTime = System.nanoTime();
             maxProfit = KnapsackLuggage(val, wt, cap); //log
             text = String.format("\n\n------------------------------------------\nTotal Profit: " + maxProfit + "\n");
             log.append(text);
             text = String.format("\n Thank you for choosing Agreege Airlines!");
+            log.append(text);
+
+
+            //end of algorithm
+            long endTime   = System.nanoTime();
+            long totalTime = endTime - startTime;
+            text = String.format("\n\nProgram Runtime: " + totalTime + " nanoseconds");
             log.append(text);
         });
 
@@ -111,8 +120,6 @@ public class KnapDynamic {
       }
     
     public static void getInputs() {
-        Scanner sc = new Scanner(System.in);
-        //cap = 20;   // Hard coded capacity by the airlines
         JOptionPane.showMessageDialog(null, "Max Weight : " + cap);
 
         while(n <= 0) {
@@ -184,4 +191,3 @@ public class KnapDynamic {
         KnapDynamic knapd = new KnapDynamic();
     } 
 }
-
