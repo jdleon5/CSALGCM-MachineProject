@@ -1,13 +1,83 @@
-import java.util.*; 
+import java.util.*;
+import java.awt.*;
 import java.io.*;
+import javax.swing.*;
 
 public class KnapDynamic {
     private static int[] wt;
     private static int[] val;
     private static int n;
-    private static int cap;
+    private static final int cap = 20;
     private static String[] name;
     private static String dump;
+    //private dynamicGUI dgui;
+    private String text;
+    private int maxProfit;
+    private JFrame textF;
+    private JTextArea log;
+    private JScrollPane scroll;
+
+    public KnapDynamic() {
+        initGUI();
+    }
+
+    private void initGUI() {
+        //dgui = new dynamicGUI();
+        // JButton confirm = gui.getConfirm();
+        // JButton clear = gui.getClear();
+        // JTextArea log = gui.getTextArea();
+        JFrame frame = new JFrame("Agreege Airlines: Dynamic Luggage");
+        JFrame mainf = new JFrame();
+        JButton nxt = new JButton("CONTINUE");
+        frame.setSize(500, 300);
+        frame.setLayout(new BorderLayout());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        
+        JLabel welcome = new JLabel("WELCOME TO AGREEGE AIRLINES!");
+        JLabel welcp = new JLabel("<html>Agreege Airlines has a 20kg weight limit for every luggage that apassenger can carry. We are very strict when it comes to luggage weight because this affects numerous ways on how the plane will perform such as taking off, landing, and fuel consumption. </html>");
+        welcome.setHorizontalAlignment(JLabel.CENTER);
+        welcome.setVerticalAlignment(JLabel.CENTER);
+        welcp.setHorizontalAlignment(JLabel.CENTER);
+        welcp.setVerticalAlignment(JLabel.CENTER);
+        frame.add(welcome, BorderLayout.NORTH);
+        frame.add(welcp, BorderLayout.CENTER);
+        frame.add(nxt, BorderLayout.SOUTH);
+        //frame.pack();
+        frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
+
+        //text = String.format("\n---------------------------- WELCOME TO AGREEGE AIRLINES! ----------------------------\n\n");
+        //JOptionPane.showMessageDialog(null, "\n---------------------------- WELCOME TO AGREEGE AIRLINES! ----------------------------\n\n");
+        
+        //log.append(text);
+        nxt.addActionListener(e -> {
+            frame.setVisible(false);
+            initTextArea();
+            getInputs();
+            maxProfit = KnapsackLuggage(val, wt, cap); //log
+            text = String.format("\n\n------------------------------------------\nTotal Profit: " + maxProfit + "\n");
+            log.append(text);
+            text = String.format("\n Thank you for choosing Agreege Airlines!");
+            log.append(text);
+        });
+
+        
+    }
+    private void initTextArea() {
+        textF = new JFrame("Agreege Airlines: Dynamic Result");
+        textF.setSize(370, 400);
+        log = new JTextArea(23, 41);
+        log.setBorder(BorderFactory.createLineBorder(Color.black));
+        log.setLineWrap(true);
+        log.setEditable(false);
+        log.setVisible(true);
+        scroll = new JScrollPane(log);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        textF.add(scroll, BorderLayout.CENTER);
+        textF.setVisible(true);
+        textF.setLocationRelativeTo(null);
+    }
 
     public int KnapsackLuggage(int[] val, int[] wt, int cap) {
         int n = val.length;
@@ -42,12 +112,13 @@ public class KnapDynamic {
     
     public static void getInputs() {
         Scanner sc = new Scanner(System.in);
-        cap = 20;   // Hard coded capacity by the airlines
-        System.out.print("Max Weight : " + cap);
+        //cap = 20;   // Hard coded capacity by the airlines
+        JOptionPane.showMessageDialog(null, "Max Weight : " + cap);
 
         while(n <= 0) {
-            System.out.print("\nNumber of items: ");
-            n = sc.nextInt();
+            //System.out.print("\nNumber of items: ");
+            n = Integer.parseInt(JOptionPane.showInputDialog("Number of items: "));
+            //n = sc.nextInt();
         }
 
         name = new String[20];
@@ -55,45 +126,62 @@ public class KnapDynamic {
         val = new int[20];
         
         for(int i = 0; i < n; i++) {
-            dump = sc.nextLine(); 
-            System.out.print("\nItem name: ");
-            name[i] = sc.nextLine();
+            //dump = JOptionPane.showInputDialog("dump: "); 
+            //System.out.print("\nItem name: ");
+            name[i] = JOptionPane.showInputDialog("Item name: ");
+            //name[i] = sc.nextLine();
             while(wt[i] <= 0){
-                System.out.print("Item weight: ");
-                wt[i] = sc.nextInt();
+                // System.out.print("Item weight: ");
+                // wt[i] = sc.nextInt();
+                wt[i] = Integer.parseInt(JOptionPane.showInputDialog("Item weight: "));
             }
             while(val[i] <= 0){
-                System.out.print("Item value: ");
-                val[i] = sc.nextInt();
+                val[i] = Integer.parseInt(JOptionPane.showInputDialog("Item value: "));
+                //System.out.print("Item value: ");
+                //val[i] = sc.nextInt();
             }
         }
     }
     
     private void printItemsSelected(int m[][], int[] weights, int[] values, int capacity){
-        System.out.print("\n------------------------------------------\n");
-        System.out.print("\nItems to be included in the Luggage:");
+        text = String.format("\n------------------------------------------\n");
+        log.append(text);
+        text = String.format("\nItems to be included in the Luggage:");
+        log.append(text);
         int totalProfit = m[weights.length-1][capacity];
         for(int i = weights.length - 1; i > 0; i--) {
             if(totalProfit != m[i - 1][capacity]) {
-            System.out.print("\n\t> " + name[i]);
+            text = String.format("\n\t> " + name[i]);
+            log.append(text);
             capacity -= weights[i];
             totalProfit -= values[i];
         }
     }
     
-        if(totalProfit != 0)
-            System.out.print("\n\t> " + name[0]);
+        if(totalProfit != 0){
+            text = String.format("\n\t> " + name[0]);
+            log.append(text);
+        }
+            
         System.out.println("");
+        
+        
      }
+
+    public int getCap() {
+        return cap;
+    }
+    
+    private void clearField() {
+        for(int i = 0; i < cap; i++) {
+            //dgui.getItemname(i).setText("");
+            //dgui.getItemweight(i).setText("");
+            //dgui.getItemvalue(i).setText("");
+        }
+    }
+
     public static void main(String[] args) {
         KnapDynamic knapd = new KnapDynamic();
-        System.out.print("\n---------------------------- ");
-        System.out.print("WELCOME TO AGREEGE AIRLINES!");
-        System.out.print(" ----------------------------\n\n");
-        getInputs();
-        int maxProfit = knapd.KnapsackLuggage(val, wt, cap);
-        System.out.println("\nTotal Profit: " + maxProfit);
-        System.out.println("");
     } 
 }
 
