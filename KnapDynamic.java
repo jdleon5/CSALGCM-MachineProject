@@ -60,7 +60,7 @@ public class KnapDynamic {
             maxProfit = KnapsackLuggage(val, wt, cap); //log
             text = String.format("\n\n------------------------------------------\nTotal Profit: " + maxProfit + "\n");
             log.append(text);
-            text = String.format("\n Thank you for choosing Agreege Airlines!");
+            text = String.format("\nThank you for choosing Agreege Airlines!");
             log.append(text);
 
 
