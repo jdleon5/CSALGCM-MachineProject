@@ -43,14 +43,9 @@ public class KnapDynamic {
         frame.add(welcome, BorderLayout.NORTH);
         frame.add(welcp, BorderLayout.CENTER);
         frame.add(nxt, BorderLayout.SOUTH);
-        //frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
 
-        //text = String.format("\n---------------------------- WELCOME TO AGREEGE AIRLINES! ----------------------------\n\n");
-        //JOptionPane.showMessageDialog(null, "\n---------------------------- WELCOME TO AGREEGE AIRLINES! ----------------------------\n\n");
-        
-        //log.append(text);
         nxt.addActionListener(e -> {
             frame.setVisible(false);
             initTextArea();
@@ -123,9 +118,7 @@ public class KnapDynamic {
         JOptionPane.showMessageDialog(null, "Max Weight : " + cap);
 
         while(n <= 0) {
-            //System.out.print("\nNumber of items: ");
             n = Integer.parseInt(JOptionPane.showInputDialog("Number of items: "));
-            //n = sc.nextInt();
         }
 
         name = new String[20];
@@ -133,19 +126,12 @@ public class KnapDynamic {
         val = new int[20];
         
         for(int i = 0; i < n; i++) {
-            //dump = JOptionPane.showInputDialog("dump: "); 
-            //System.out.print("\nItem name: ");
             name[i] = JOptionPane.showInputDialog("Item name: ");
-            //name[i] = sc.nextLine();
             while(wt[i] <= 0){
-                // System.out.print("Item weight: ");
-                // wt[i] = sc.nextInt();
                 wt[i] = Integer.parseInt(JOptionPane.showInputDialog("Item weight: "));
             }
             while(val[i] <= 0){
                 val[i] = Integer.parseInt(JOptionPane.showInputDialog("Item value: "));
-                //System.out.print("Item value: ");
-                //val[i] = sc.nextInt();
             }
         }
     }
@@ -164,7 +150,6 @@ public class KnapDynamic {
             totalProfit -= values[i];
         }
     }
-    
         if(totalProfit != 0){
             text = String.format("\n\t> " + name[0]);
             log.append(text);
@@ -174,18 +159,6 @@ public class KnapDynamic {
         
         
      }
-
-    public int getCap() {
-        return cap;
-    }
-    
-    private void clearField() {
-        for(int i = 0; i < cap; i++) {
-            //dgui.getItemname(i).setText("");
-            //dgui.getItemweight(i).setText("");
-            //dgui.getItemvalue(i).setText("");
-        }
-    }
 
     public static void main(String[] args) {
         KnapDynamic knapd = new KnapDynamic();
