@@ -4,6 +4,7 @@ import java.io.*;
 import javax.swing.*;
 
 public class KnapDynamic {
+    private static float[] ratio;
     private static int[] wt;
     private static int[] val;
     private static int n;
@@ -22,10 +23,6 @@ public class KnapDynamic {
     }
 
     private void initGUI() {
-        //dgui = new dynamicGUI();
-        // JButton confirm = gui.getConfirm();
-        // JButton clear = gui.getClear();
-        // JTextArea log = gui.getTextArea();
         JFrame frame = new JFrame("Agreege Airlines: Dynamic Luggage");
         JFrame mainf = new JFrame();
         JButton nxt = new JButton("CONTINUE");
@@ -122,9 +119,10 @@ public class KnapDynamic {
             n = Integer.parseInt(JOptionPane.showInputDialog("Number of items: "));
         }
 
-        name = new String[20];
-        wt = new int[20];
-        val = new int[20];
+        name = new String[n];
+        wt = new int[n];
+        val = new int[n];
+        ratio = new float[n];
         
         for(int i = 0; i < n; i++) {
             name[i] = JOptionPane.showInputDialog("Item name: ");
@@ -134,6 +132,41 @@ public class KnapDynamic {
             while(val[i] <= 0){
                 val[i] = Integer.parseInt(JOptionPane.showInputDialog("Item value: "));
             }
+            ratio[i] = (float)val[i]/wt[i];
+            //System.out.println(ratio[i]);
+        }
+
+        //Sort the inputs according to values
+        String stemp;
+        float ftemp = 0;  
+        int itemp = 0;
+        for(int i = 0; i < (n - 1); i++){  
+            for(int j = 0; j < (n - i - 1); j++){  
+                if(ratio[j] < ratio[j + 1]){  
+                    // //swap elements  
+                    ftemp = ratio[j];  
+                    ratio[j] = ratio[j+1];  
+                    ratio[j+1] = ftemp;  
+                    //name
+                    stemp = name[j];  
+                    name[j] = name[j+1];  
+                    name[j+1] = stemp;   
+                    //weight
+                    itemp = wt[j];  
+                    wt[j] = wt[j+1];  
+                    wt[j+1] = itemp;  
+                    //value
+                    itemp = val[j];  
+                    val[j] = val[j+1];  
+                    val[j+1] = itemp;  
+                }  
+                         
+            }  
+        }   
+        System.out.println("< Sort according to ratio >");
+        for(int i = 0; i < n; i++) {
+            System.out.print(name[i] + "    ");
+            System.out.println(ratio[i]);
         }
     }
     
