@@ -120,6 +120,7 @@ public class RecursionKnap
             textF.add(scroll, BorderLayout.CENTER);
             textF.setVisible(true);
             textF.setLocationRelativeTo(null);
+            textF.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         }
 
 /*===========================================================================================
