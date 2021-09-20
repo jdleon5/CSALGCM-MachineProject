@@ -64,9 +64,14 @@ public class RecursionKnap
         frame.add(welcome, BorderLayout.NORTH);
         frame.add(welcp, BorderLayout.CENTER);
         frame.add(nxt, BorderLayout.SOUTH);
+        //frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
 
+        //text = String.format("\n---------------------------- WELCOME TO AGREEGE AIRLINES! ----------------------------\n\n");
+        //JOptionPane.showMessageDialog(null, "\n---------------------------- WELCOME TO AGREEGE AIRLINES! ----------------------------\n\n");
+        
+        //log.append(text);
         nxt.addActionListener(e -> {
             frame.setVisible(false);
             initTextArea();
@@ -115,7 +120,6 @@ public class RecursionKnap
             textF.add(scroll, BorderLayout.CENTER);
             textF.setVisible(true);
             textF.setLocationRelativeTo(null);
-            textF.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         }
 
 /*===========================================================================================
@@ -179,23 +183,57 @@ public class RecursionKnap
         JOptionPane.showMessageDialog(null, "Max Weight : " + capacity);
 
         while(n <= 0) {
+            //System.out.print("\nNumber of items: ");
             n = Integer.parseInt(JOptionPane.showInputDialog("Number of items: "));
+            //n = sc.nextInt();
         }
 
     name = new String[20];
     size = new int[20];
     val = new int[20];
 
-            for(int i = 0; i < n; i++) {
+            for(int i = 0; i < n; i++) 
+            {
             name[i] = JOptionPane.showInputDialog("Item name: ");
-            while(size[i] <= 0){
-                size[i] = Integer.parseInt(JOptionPane.showInputDialog("Item weight: "));
+                while(size[i] <= 0)
+                {
+                    size[i] = Integer.parseInt(JOptionPane.showInputDialog("Item weight: "));
+                }
+                while(val[i] <= 0)
+                {
+                    val[i] = Integer.parseInt(JOptionPane.showInputDialog("Item value: "));
+                }  
             }
-            while(val[i] <= 0){
-                val[i] = Integer.parseInt(JOptionPane.showInputDialog("Item value: "));
-            }
-        }
+            //sort
+            bubbleSort(size, name, val, n);
     }
+
+        public static void bubbleSort(int[] size, String[] name, int[] val, int n) {
+            boolean sorted = false;
+            int tempSize, tempVal;
+            String tempName;
+            while(!sorted) {
+                sorted = true;
+                for (int i = 0; i < n-1; i++) {
+                    if (size[i] > size[i+1]) 
+                    {
+                        tempSize = size[i];
+                        tempVal = val[i];
+                        tempName = name[i];
+
+                        size[i] = size[i+1];
+                        name[i] = name[i+1];
+                        val[i] = val[i+1];
+
+                        size[i+1] = tempSize;
+                        name[i+1] = tempName;
+                        val[i+1] = tempVal;
+
+                        sorted = false;
+                    }
+                }
+            }
+        }    
     
     public static void main(String args[])
     {    
